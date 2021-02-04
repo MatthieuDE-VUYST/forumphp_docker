@@ -1,23 +1,31 @@
-1. Construisez tout d'abord l'image docker :
+1. generer le vendor:
+    `cd app`
+    `composer install`
+    `cd ..`
+
+2. Construisez tout d'abord l'image docker :
 
     `docker-compose build` (may take few minutes)
     
-2. Démarrer les images :
+3. Démarrer les images :
 
     `docker-compose up`
 
 Utilisez `docker-compose start/stop` pour démarrer et arreter les images
 
-3. Configurer la connection a la DB dans le `.env` du projet en remplaçant par cette ligne.
+4. Configurer la connection a la DB dans le `.env` du projet en remplaçant par cette ligne.
 
     `DATABASE_URL=mysql://user:password@mysqldb:3306/root?serverVersion=mariadb-10.3.22`
 
-4. Faire les migrations de Doctine :
+5. Faire les migrations de Doctine :
 
     `docker-compose exec php php bin/console make:migration`
+    `yes`
 
     `docker-compose exec php php bin/console doctrine:migrations:migrate`
+    `yes`
 
-5. Chargez les fixtures pour obtenir un utilisateur admin et pouvoir se connecter (mail : root@root.fr | mdp : test) :
+6. Chargez les fixtures pour obtenir un utilisateur admin et pouvoir se connecter (mail : root@root.fr | mdp : test) :
 
     `docker-compose exec php php bin/console doctrine:fixtures:load`
+    `yes`
