@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <a href="{{ path('categorie') }}" class="btn btn-info">Retour</a>
+    <a class="btn btn-light" href="{{ path('creer_compte') }}"><i class="fa fa-plus"></i> Ajouter un nouvel utilisateur</a>
+    <h1>Liste des utilisateurs</h1>
+    <table class="table table-striped">
+        <thead>
+            <th>Pseudo</th>
+            <th>Adresse mail</th>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{ utilisateur.pseudo }}</td>
+                    <td>{{ utilisateur.email }}</td>
+		    <td><a href="{{ path('edition_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-info">Modifier</a></td>
+                    <td><a href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-danger">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

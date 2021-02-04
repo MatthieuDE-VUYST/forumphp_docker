@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des categories{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-light" href="{{ path('creer_categorie') }}"><i class="fa fa-plus"></i> Ajouter une nouvelle catégorie</a>
+    {% endif %}
+    <h1>Liste des formulaires</h1>
+    <table class="table table-striped">
+        <thead>
+            <th>Nom</th>
+        </thead>
+        <tbody>
+            {% for categorie in categories %}
+                <tr>
+                    <td><a href="{{ path('sujet', {'id_categorie': categorie.id}) }}" class="btn btn-info">{{ categorie.nom }}</a></td>
+		    {% if is_granted('ROLE_ADMIN') %}
+		        <td><a href="{{ path('edition_categorie', {'id': categorie.id}) }}" class="btn btn-info">Modifier</a></td>
+                        <td><a href="{{ path('supprimer_categorie', {'id': categorie.id}) }}" class="btn btn-danger">Supprimer</a></td>
+		    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

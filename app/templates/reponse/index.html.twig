@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+{% block body %}
+    <a href="{{ path('sujet', {'id_categorie': categorie.id}) }}" class="btn btn-info">Retour</a>
+    {% if app.user %}
+    <a class="btn btn-light" href="{{ path('creer_reponse', {'id_categorie': categorie.id,'id_sujet': sujet.id}) }}"><i class="fa fa-plus"></i> Ajouter une nouvelle reponse</a>	
+    {% endif %}
+    <h1>Liste des messages du sujet {{ sujet.titre }}</h1>
+    <table class="table table-striped">
+        <thead>
+            <th>Date</th>
+            <th>Utilisateur</th>
+            <th>Message</th>
+        </thead>
+        <tbody>
+            {% for reponse in reponses %}
+                <tr>
+                    <td>{{ reponse.getDatePosteToString }}</td>
+                    <td>{{ reponse.utilisateur.pseudo }}</td>
+                    <td>{{ reponse.message }}</td>
+		    {% if is_granted('ROLE_ADMIN') %}
+		        <td><a href="{{ path('edition_reponse', {'id_categorie': categorie.id,'id_sujet': sujet.id,'id': reponse.id}) }}" class="btn btn-info">Modifier</a></td>
+                        <td><a href="{{ path('supprimer_reponse', {'id_categorie': categorie.id,'id_sujet': sujet.id,'id': reponse.id}) }}" class="btn btn-danger">Supprimer</a></td>
+		    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

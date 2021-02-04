@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sujets{% endblock %}
+
+{% block body %}
+    <a href="{{ path('categorie') }}" class="btn btn-info">Retour</a>
+    {% if app.user %}
+        <a class="btn btn-light" href="{{ path('creer_sujet', {'id_categorie': categorie.id}) }}"><i class="fa fa-plus"></i> Ajouter un nouveau sujet</a>
+    {% endif %}
+    <h1>Liste des sujets de la categorie {{ categorie.nom }}</h1>
+    <table class="table table-striped">
+        <thead>
+            <th>Date</th>
+            <th>Utilisateur</th>
+            <th>Titre</th>
+        </thead>
+        <tbody>
+            {% for sujet in sujets %}
+                <tr>
+                    <td>{{ sujet.getDateCreationToString }}</td>
+                    <td>{{ sujet.utilisateur.pseudo }}</td>
+                    <td><a href="{{ path('reponse', {'id_categorie': categorie.id,'id_sujet': sujet.id}) }}" class="btn btn-info">{{ sujet.titre }}</a></td>
+		    {% if is_granted('ROLE_ADMIN') %}
+		        <td><a href="{{ path('edition_sujet', {'id_categorie': categorie.id,'id': sujet.id}) }}" class="btn btn-info">Modifier</a></td>
+                        <td><a href="{{ path('supprimer_sujet', {'id_categorie': categorie.id,'id': sujet.id}) }}" class="btn btn-danger">Supprimer</a></td>
+		    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

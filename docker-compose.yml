@@ -1,0 +1,37 @@
+version: '3'
+services:
+  php:
+    build:
+      context: build/php
+      dockerfile: DockerFile
+    ports:
+      - '9000:9000'
+    depends_on:
+      - mysqldb
+    volumes:
+      - ./app:/var/www/html/symfony
+      - ./logs:/var/log
+      - /var/www/symfony/vendor
+  web:
+    build:
+      context: build/nginx
+      dockerfile: DockerFile
+    restart: always
+    ports:
+        - '80:80'
+        - '443:443'
+    depends_on:
+        - php
+    volumes:
+        - ./app:/var/www/html/symfony
+
+  mysqldb:
+    image: mariadb
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    ports:
+        - "3306:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: root
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
